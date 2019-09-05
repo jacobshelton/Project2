@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace GroupBox.Domain.Models
 {
     public class Group
