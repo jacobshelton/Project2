@@ -8,3 +8,9 @@ namespace GroupBox.Domain.Models
         public List<Post> Posts { get; set; }
     }
 }
+
+
+
+
+//this is to test merging!!!!!!!!!
+//Jake was here
