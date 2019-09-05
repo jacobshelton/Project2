@@ -1,3 +1,4 @@
+using GroupBox.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GroupBox.Client.Controllers
@@ -9,11 +10,26 @@ namespace GroupBox.Client.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult CreateAccount(User newUser, Password newPassword)
+        {
+            if(ModelState.IsValid)
+            {
+                newUser.Password = newPassword;
+                return RedirectToAction("Login");
+            }
+            return View();
+        }
 
         [HttpGet]
         public IActionResult Login()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult Login(User user, Password password)
+        {
+            return Redirect("/home/index");
         }
     }
 }
