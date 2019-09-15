@@ -1,7 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+  Layout="_homeLayout";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to Group Box</h1>
+
+     <p>To login, please click @Html.ActionLink("here", "Login", "User") </p>
+
+     <p>If you do not have an account, please click @Html.ActionLink("here", "CreateAccount", "User") </p>
+
+     <p>@Html.ActionLink("here", "Privacy", "Home") </p>
+
 </div>

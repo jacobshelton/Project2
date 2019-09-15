@@ -1,8 +1,19 @@
+@{
+  Layout="_homeLayout";
+}
+<p class="welcome">Welcome Back!</p>
+<main class="containerF">
 <form action="/user/login" method="post">
+  <div>
     <label for="username">Username</label>
-    <input type="text" id="username" name="username" required>
+    
+    <input class=trey type="text" id="username" name="username" required>
+  </div>
+  <div>
     <label for="username">Password</label>
-    <input type="password" id="password" name="password" required>
-
-    <button type="submit">Create Account</button>
+    
+    <input class=trey type="password" id="password" name="password" required>
+  </div><br>
+    <button type="submit">Login</button>
 </form>
+</main>
