@@ -4,3 +4,14 @@
 
 <!-- section for posting things (post bar, or post button) -->
 <!-- each post can be clicked to display the comments on that post (separate sub view?) -->
+
+@model List<GroupBox.Domain.Models.Post>
+
+<ul>
+  @foreach (var item in Model)
+  {
+    <!-- add an href to send the user to the group they selected -->
+    <!-- also add a search function to be able to find a particular group -->
+    <li>@item.Content</li>
+  }
+</ul>
