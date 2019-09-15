@@ -4,14 +4,16 @@ using GroupBox.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GroupBox.Data.Migrations
 {
     [DbContext(typeof(GroupBoxDbContext))]
-    partial class GroupBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190915225837_first to azure db")]
+    partial class firsttoazuredb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,6 +40,25 @@ namespace GroupBox.Data.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("GroupBox.Domain.Models.Password", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Hash");
+
+                    b.Property<string>("Salt");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Hash")
+                        .IsUnique()
+                        .HasFilter("[Hash] IS NOT NULL");
+
+                    b.ToTable("Passwords");
                 });
 
             modelBuilder.Entity("GroupBox.Domain.Models.Post", b =>
@@ -69,11 +90,15 @@ namespace GroupBox.Data.Migrations
 
                     b.Property<int?>("GroupID");
 
+                    b.Property<int?>("PasswordID");
+
                     b.Property<string>("UserName");
 
                     b.HasKey("ID");
 
                     b.HasIndex("GroupID");
+
+                    b.HasIndex("PasswordID");
 
                     b.HasIndex("UserName")
                         .IsUnique()
@@ -105,6 +130,10 @@ namespace GroupBox.Data.Migrations
                     b.HasOne("GroupBox.Domain.Models.Group")
                         .WithMany("Users")
                         .HasForeignKey("GroupID");
+
+                    b.HasOne("GroupBox.Domain.Models.Password", "Password")
+                        .WithMany()
+                        .HasForeignKey("PasswordID");
                 });
 #pragma warning restore 612, 618
         }
