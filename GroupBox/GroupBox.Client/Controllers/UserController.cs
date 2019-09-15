@@ -1,3 +1,4 @@
+using GroupBox.Data;
 using GroupBox.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -5,17 +6,21 @@ namespace GroupBox.Client.Controllers
 {
     public class userController : Controller
     {
+        private GroupBoxDbContext db = new GroupBoxDbContext();
+
         [HttpGet]
         public IActionResult CreateAccount()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult CreateAccount(User newUser, Password newPassword)
+        public IActionResult CreateAccount(User newUser)
         {
             if(ModelState.IsValid)
             {
-                newUser.Password = newPassword;
+                db.Users.Add(newUser);
+                db.SaveChanges();
+
                 return RedirectToAction("Login");
             }
             return View();
@@ -27,7 +32,7 @@ namespace GroupBox.Client.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(User user, Password password)
+        public IActionResult Login(User user)
         {
             return Redirect("/home/index");
         }
