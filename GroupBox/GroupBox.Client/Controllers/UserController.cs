@@ -3,8 +3,7 @@ using GroupBox.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-
-
+using Microsoft.EntityFrameworkCore;
 
 namespace GroupBox.Client.Controllers
 {
@@ -36,10 +35,16 @@ namespace GroupBox.Client.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(User user)
+        public IActionResult Login(User userLogin)
         {
+            User user = db.Users.Include("Groups").Include("Posts").FirstOrDefault(u => u.UserName == userLogin.UserName);
             HttpContext.Session.SetString("user", user.UserName);
             return RedirectToAction("AllGroups","Group");
+        }
+
+        public IActionResult Info(User user)
+        {
+            return View(user);
         }
 
     }

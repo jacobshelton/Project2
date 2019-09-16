@@ -3,11 +3,14 @@
   Layout="_mainLayout";
 }
 
+<h1>@Model.Count</h1>
+
 <ul class="plist">
-  @foreach (var item in Model)
+  @foreach (var item in @Model)
   {
     <!-- add an href to send the user to the group they selected -->
     <!-- shows only the groups that the user is a member of -->
+    <p>item.Name</p>
     <li><a>@Html.ActionLink(@item.Name, "GroupFind", "Group", new{id= @item.ID}, new { @class = "ptext" })</a></li>
   }
 </ul>

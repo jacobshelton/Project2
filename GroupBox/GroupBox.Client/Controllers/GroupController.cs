@@ -3,6 +3,7 @@ using GroupBox.Domain.Models;
 using GroupBox.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace GroupBox.Client.Controllers
 {
@@ -19,7 +20,14 @@ namespace GroupBox.Client.Controllers
         [HttpPost]
         public IActionResult Create(Group group)
         {
+            string uName = HttpContext.Session.GetString("user");
+            User user = db.Users.FirstOrDefault(u => u.UserName == uName);
+            user.Groups.Add(group);
+            group.Users.Add(user);
+
             db.Groups.Add(group);
+
+            db.Users.Update(user);
             db.SaveChanges();
 
             return View();
@@ -55,7 +63,10 @@ namespace GroupBox.Client.Controllers
         [HttpGet]
         public IActionResult MyGroups()
         {
-            return View();
+            string uName = HttpContext.Session.GetString("user");
+            User user = db.Users.Include("Groups").FirstOrDefault(u => u.UserName == uName);
+
+            return View(user.Groups);
         }
 
         [HttpPost]
