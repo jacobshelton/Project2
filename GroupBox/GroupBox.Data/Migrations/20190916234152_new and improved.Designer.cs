@@ -4,14 +4,16 @@ using GroupBox.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GroupBox.Data.Migrations
 {
     [DbContext(typeof(GroupBoxDbContext))]
-    partial class GroupBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190916234152_new and improved")]
+    partial class newandimproved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
