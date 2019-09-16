@@ -79,14 +79,26 @@ namespace GroupBox.Client.Controllers
         [HttpGet]
         public IActionResult Group(Group group)
         {
-          ViewBag.gname= group.Name;
+          TempData["gname"]= group.Name;
           return View();
         }
 
         [HttpPost]
         public IActionResult Group()
         {
-            
+            string uName = HttpContext.Session.GetString("user");
+            User user = db.Users.Include("Groups").FirstOrDefault(u => u.UserName == uName);
+            string gName = TempData["gname"].ToString();
+            Group group = db.Groups.Include("Users").FirstOrDefault(g => g.Name == gName);
+            if(user != null && group != null)
+            {
+                user.Groups.Add(group);
+                group.Users.Add(user);
+
+                db.Users.Update(user);
+                db.Groups.Update(group);
+                db.SaveChanges();
+            }
             return View();
         }
     }

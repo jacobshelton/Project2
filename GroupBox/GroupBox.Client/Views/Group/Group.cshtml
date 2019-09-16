@@ -9,7 +9,10 @@
 @{
   Layout="_mainLayout";
 }
-<h1>@ViewBag.gname</h1>
+<h1>
+    @ViewBag.gname
+    <form action="/Group/Group" method="post"><button type="submit">Join!</button></form>
+</h1>
 
 <ul>
   @if (Model!=null)
