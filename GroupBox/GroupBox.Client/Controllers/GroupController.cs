@@ -48,7 +48,7 @@ namespace GroupBox.Client.Controllers
               return RedirectToAction("Group", group);
             }
           }
-          return RedirectToAction("Login","User");
+          return RedirectToAction("AllGroups","Group");
         }
 
 
