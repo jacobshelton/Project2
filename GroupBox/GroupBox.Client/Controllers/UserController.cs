@@ -34,7 +34,12 @@ namespace GroupBox.Client.Controllers
         [HttpPost]
         public IActionResult Login(User user)
         {
-            return Redirect("/home/index");
+            return RedirectToAction("Info", user);
+        }
+
+        public IActionResult Info(User user)
+        {
+            return View(user);
         }
     }
 }

@@ -8,5 +8,11 @@ namespace GroupBox.Domain.Models
         public string UserName { get; set; }
         public List<Group> Groups { get; set; }
         public List<Post> Posts { get; set; }
+
+        public User()
+        {
+            Groups = new List<Group>();
+            Posts = new List<Post>();
+        }
     }
 }
