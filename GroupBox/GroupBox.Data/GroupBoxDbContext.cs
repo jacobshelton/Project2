@@ -18,11 +18,9 @@ namespace GroupBox.Data
     {
         builder.Entity<User>().HasKey(u => u.ID);
         builder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
-        builder.Entity<User>().HasMany(u => u.Groups);
 
         builder.Entity<Group>().HasKey(g => g.ID);
         builder.Entity<Group>().HasIndex(g => g.Name).IsUnique();
-        builder.Entity<Group>().HasMany(g => g.Users);
 
         builder.Entity<Post>().HasKey(p => p.ID);
 

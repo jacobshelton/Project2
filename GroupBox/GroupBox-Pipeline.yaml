@@ -33,7 +33,7 @@ stages:
               version: '2.2.401'
           - script: |
               dotnet tool install --global dotnet-sonarscanner
-              dotnet sonarscanner begin /k:"devopsdemo2019" /o:"fredbelotte-github" /d:sonar.login="5525c02dac30659cb0710672f763f1be743c7afe" /d:sonar.host.url="https://sonarcloud.io/"
+              dotnet sonarscanner begin /k:"Project2" /o:"jacobshelton-github" /d:sonar.login="5525c02dac30659cb0710672f763f1be743c7afe" /d:sonar.host.url="https://sonarcloud.io/"
               dotnet build
               dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=\"cobertura,opencover\" /p:Exclude=[xunit*]*
               dotnet sonarscanner end /d:sonar.login="5525c02dac30659cb0710672f763f1be743c7afe"
@@ -90,7 +90,7 @@ stages:
         steps:
           - task: AzureWebAppContainer@1
             inputs:
-              azureSubscription: 'revature(xyz)(eb8964dc-9fbc-4999-8360-6d5e23316e15)'
+              azureSubscription: 'jacobshelton2'
               appName: 'groupbox201909'
               containers: 'jacobshelton/groupbox'
 
