@@ -7,20 +7,19 @@ namespace GroupBox.Tests
   public class HomeUnitTest
   {
     [Fact]
-    public void Test_Index()
+    public void Test_Group()
     {
       var sut = new GroupController();
       var view = sut.Group();
 
       Assert.NotNull(view);
-      Assert.IsType<ViewResult>(view);
     }
 
     [Fact]
-    public void Test_Privacy()
+    public void Test_AllGroups()
     {
-      var sut = new HomeController();
-      var view = sut.Privacy();
+      var sut = new GroupController();
+      var view = sut.AllGroups();
 
       Assert.NotNull(view);
     }

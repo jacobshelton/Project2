@@ -10,7 +10,6 @@ namespace GroupBox.Domain.Models
 
         public User()
         {
-            Groups = new List<Group>();
             Posts = new List<Post>();
         }
     }

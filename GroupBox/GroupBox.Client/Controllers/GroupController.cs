@@ -22,7 +22,7 @@ namespace GroupBox.Client.Controllers
         {
             string uName = HttpContext.Session.GetString("user");
             User user = db.Users.FirstOrDefault(u => u.UserName == uName);
-            user.Groups.Add(group);
+            
             group.Users.Add(user);
 
             db.Groups.Add(group);
@@ -68,7 +68,7 @@ namespace GroupBox.Client.Controllers
 
             if(user != null)
             {
-                return View(user.Groups);
+                return View();
             }
             else
             {
@@ -103,7 +103,7 @@ namespace GroupBox.Client.Controllers
             Group group = db.Groups.Include("Users").FirstOrDefault(g => g.Name == gName);
             if(user != null && group != null)
             {
-                user.Groups.Add(group);
+                
                 group.Users.Add(user);
 
                 db.Users.Update(user);
