@@ -66,7 +66,14 @@ namespace GroupBox.Client.Controllers
             string uName = HttpContext.Session.GetString("user");
             User user = db.Users.Include("Groups").FirstOrDefault(u => u.UserName == uName);
 
-            return View(user.Groups);
+            if(user != null)
+            {
+                return View(user.Groups);
+            }
+            else
+            {
+                return Redirect("/user/login");
+            }
         }
 
         [HttpPost]
@@ -79,16 +86,20 @@ namespace GroupBox.Client.Controllers
         [HttpGet]
         public IActionResult Group(Group group)
         {
-          TempData["gname"]= group.Name;
-          return View();
+          if(group.Name != null)
+          {
+              HttpContext.Session.SetString("group", group.Name);
+              return View(group);
+          }
+          else return Redirect("allgroups");
         }
 
         [HttpPost]
         public IActionResult Group()
         {
+            string gName = HttpContext.Session.GetString("group");
             string uName = HttpContext.Session.GetString("user");
             User user = db.Users.Include("Groups").FirstOrDefault(u => u.UserName == uName);
-            string gName = TempData["gname"].ToString();
             Group group = db.Groups.Include("Users").FirstOrDefault(g => g.Name == gName);
             if(user != null && group != null)
             {
@@ -99,7 +110,7 @@ namespace GroupBox.Client.Controllers
                 db.Groups.Update(group);
                 db.SaveChanges();
             }
-            return View();
+            return View(group);
         }
     }
 }

@@ -5,19 +5,19 @@
 <!-- section for posting things (post bar, or post button) -->
 <!-- each post can be clicked to display the comments on that post (separate sub view?) -->
 
-@model List<GroupBox.Domain.Models.Post>
+@model GroupBox.Domain.Models.Group
 @{
   Layout="_mainLayout";
 }
 <h1>
-    @ViewBag.gname
+    @Model.Name
     <form action="/Group/Group" method="post"><button type="submit">Join!</button></form>
 </h1>
 
 <ul>
   @if (Model!=null)
   {
-  @foreach (var item in Model)
+  @foreach (var item in Model.Posts)
   {
     <li>@item.Content</li>
   }
