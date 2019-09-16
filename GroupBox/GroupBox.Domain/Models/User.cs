@@ -7,5 +7,11 @@ namespace GroupBox.Domain.Models
         public int ID { get; set; }
         public string UserName { get; set; }
         public List<Post> Posts { get; set; }
+
+        public User()
+        {
+            Groups = new List<Group>();
+            Posts = new List<Post>();
+        }
     }
 }

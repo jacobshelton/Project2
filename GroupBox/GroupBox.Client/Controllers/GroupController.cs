@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using GroupBox.Domain.Models;
 using GroupBox.Data;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace GroupBox.Client.Controllers
 {
@@ -18,7 +20,14 @@ namespace GroupBox.Client.Controllers
         [HttpPost]
         public IActionResult Create(Group group)
         {
+            string uName = HttpContext.Session.GetString("user");
+            User user = db.Users.FirstOrDefault(u => u.UserName == uName);
+            user.Groups.Add(group);
+            group.Users.Add(user);
+
             db.Groups.Add(group);
+
+            db.Users.Update(user);
             db.SaveChanges();
 
             return View();
@@ -28,20 +37,43 @@ namespace GroupBox.Client.Controllers
         [HttpGet]
         public IActionResult AllGroups()
         {
+            ViewBag.u = HttpContext.Session.GetString("user");
             return View(db.Groups.ToList());
         }
 
         [HttpPost]
         public IActionResult AllGroups(Group group)
         {
-            return View();
+          return View();
+        }
+
+        public IActionResult GroupFind(int id)
+        {
+           foreach(Group group in db.Groups)
+          {
+            if (id == group.ID)
+            {
+              return RedirectToAction("Group", group);
+            }
+          }
+          return RedirectToAction("AllGroups","Group");
         }
 
 
         [HttpGet]
         public IActionResult MyGroups()
         {
-            return View();
+            string uName = HttpContext.Session.GetString("user");
+            User user = db.Users.Include("Groups").FirstOrDefault(u => u.UserName == uName);
+
+            if(user != null)
+            {
+                return View(user.Groups);
+            }
+            else
+            {
+                return Redirect("/user/login");
+            }
         }
 
         [HttpPost]
@@ -52,15 +84,33 @@ namespace GroupBox.Client.Controllers
 
 
         [HttpGet]
-        public IActionResult Group()
+        public IActionResult Group(Group group)
         {
-            return View();
+          if(group.Name != null)
+          {
+              HttpContext.Session.SetString("group", group.Name);
+              return View(group);
+          }
+          else return Redirect("allgroups");
         }
 
         [HttpPost]
-        public IActionResult Group(Group group)
+        public IActionResult Group()
         {
-            return View();
+            string gName = HttpContext.Session.GetString("group");
+            string uName = HttpContext.Session.GetString("user");
+            User user = db.Users.Include("Groups").FirstOrDefault(u => u.UserName == uName);
+            Group group = db.Groups.Include("Users").FirstOrDefault(g => g.Name == gName);
+            if(user != null && group != null)
+            {
+                user.Groups.Add(group);
+                group.Users.Add(user);
+
+                db.Users.Update(user);
+                db.Groups.Update(group);
+                db.SaveChanges();
+            }
+            return View(group);
         }
     }
 }

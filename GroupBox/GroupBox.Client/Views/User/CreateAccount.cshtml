@@ -1,8 +1,15 @@
+@{
+  Layout="_homeLayout";
+}
+<p class="welcome">Account Creation</p>
+<main class="containerF">
 <form action="/user/createaccount" method="post">
     <div id="username">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+        
+        <input class="tform" type="text" id="username" name="username" required>
+        
     </div>
-
     <button type="submit">Create Account</button>
 </form>
+</main>

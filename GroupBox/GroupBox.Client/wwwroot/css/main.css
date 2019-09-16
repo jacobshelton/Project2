@@ -1,0 +1,63 @@
+*{
+  background-color: #303030;
+  color: antiquewhite;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#gbnav{
+  background-color: antiquewhite;
+
+}
+#gbnav li {
+  list-style-type: none;
+  float: left;
+}
+#gbnav a{
+  background-color: antiquewhite;
+  display: block;
+  color: black;
+  text-align: center;
+  font-size: 16pt;
+  padding: 12px 14px;
+  text-decoration: none;
+}
+#gbnav a:hover {
+  color: crimson;
+}
+
+h1{
+  color: antiquewhite;
+  text-align: center;
+}
+
+.ptext a{
+  text-decoration: none;
+  color: antiquewhite;
+}
+
+.plist{
+  list-style-type: none;
+  padding: 12px 14px;
+}
+
+.ptext a:hover{
+  color: crimson;
+  list-style-type: none;
+  text-decoration: none;
+  font-style: italic;
+}
+
+.containerM {
+  margin: 0;
+  border: 1px;
+  padding:70px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  height: 60px;
+  line-height: 60px; 
+}

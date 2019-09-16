@@ -1,0 +1,41 @@
+*{
+  background: #303030;
+  color: antiquewhite;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.hlink a{
+  color: crimson;
+}
+
+.hlink a:hover{
+  text-decoration: none;
+  font-style: italic;
+}
+
+.tform{
+  border-radius: 20px;
+  text-indent: 12px;
+}
+.welcome{
+  font-size: 20pt;
+  width: 300px;
+  margin:0 auto;
+}
+
+.containerF{
+  padding:25px;
+  width: 300px;
+  margin:0 auto;
+  
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  height: 60px;
+  line-height: 60px; 
+}
+

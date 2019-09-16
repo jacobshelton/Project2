@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+          <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+          <link rel="stylesheet" href="~/css/main.css" />
+
+</head>
+<header>
+   <nav class="navbar navbar-fixed-top navbar-light navbar-expand-sm" style="background-color: #faebd7;">
+        
+            <ul id="gbnav">
+              <li><a>@Html.ActionLink("Home", "MyGroups", "Group")</a></li>
+              <li><a>@Html.ActionLink("Create a Group", "Create", "Group")</a></li>
+              <li><a>@Html.ActionLink("All Groups", "AllGroups", "Group")</a></li>
+              
+            </ul>
+        
+  </nav>
+</header>
+
+<body>
+  <main class="containerM">
+            @RenderBody()
+  </main>
+</body>
+   <footer class="footer text-muted">
+        <div>
+            GroupBox by Jacob Shelton, Justin Smith, and Trevor Tamura   &copy; 2019 
+        </div>
+   </footer>
+</html>
