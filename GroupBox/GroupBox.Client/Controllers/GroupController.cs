@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using GroupBox.Domain.Models;
 using GroupBox.Data;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace GroupBox.Client.Controllers
 {
@@ -28,13 +29,26 @@ namespace GroupBox.Client.Controllers
         [HttpGet]
         public IActionResult AllGroups()
         {
+            ViewBag.u = HttpContext.Session.GetString("user");
             return View(db.Groups.ToList());
         }
 
         [HttpPost]
         public IActionResult AllGroups(Group group)
         {
-            return View();
+          return View();
+        }
+
+        public IActionResult GroupFind(int id)
+        {
+           foreach(Group group in db.Groups)
+          {
+            if (id == group.ID)
+            {
+              return RedirectToAction("Group", group);
+            }
+          }
+          return RedirectToAction("Login","User");
         }
 
 
@@ -52,14 +66,16 @@ namespace GroupBox.Client.Controllers
 
 
         [HttpGet]
-        public IActionResult Group()
+        public IActionResult Group(Group group)
         {
-            return View();
+          ViewBag.gname= group.Name;
+          return View();
         }
 
         [HttpPost]
-        public IActionResult Group(Group group)
+        public IActionResult Group()
         {
+            
             return View();
         }
     }

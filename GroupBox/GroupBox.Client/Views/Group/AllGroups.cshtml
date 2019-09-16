@@ -1,10 +1,14 @@
 @model List<GroupBox.Domain.Models.Group>
-
-<ul>
+@{
+  Layout="_mainLayout";
+}
+<h1>@ViewBag.u</h1>
+<ul class="plist">
   @foreach (var item in Model)
   {
     <!-- add an href to send the user to the group they selected -->
     <!-- also add a search function to be able to find a particular group -->
-    <li>@item.Name</li>
+    <li><div class=ptext>@Html.ActionLink(@item.Name, "GroupFind", "Group", new{id= @item.ID})</div></li>
+    
   }
 </ul>

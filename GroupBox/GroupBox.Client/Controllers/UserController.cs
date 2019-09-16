@@ -1,6 +1,10 @@
 using GroupBox.Data;
 using GroupBox.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
+
+
 
 namespace GroupBox.Client.Controllers
 {
@@ -34,7 +38,9 @@ namespace GroupBox.Client.Controllers
         [HttpPost]
         public IActionResult Login(User user)
         {
-            return Redirect("/home/index");
+            HttpContext.Session.SetString("user", user.UserName);
+            return RedirectToAction("AllGroups","Group");
         }
+
     }
 }

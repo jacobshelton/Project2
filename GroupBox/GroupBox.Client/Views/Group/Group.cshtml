@@ -6,10 +6,17 @@
 <!-- each post can be clicked to display the comments on that post (separate sub view?) -->
 
 @model List<GroupBox.Domain.Models.Post>
+@{
+  Layout="_mainLayout";
+}
+<h1>@ViewBag.gname</h1>
 
 <ul>
+  @if (Model!=null)
+  {
   @foreach (var item in Model)
   {
     <li>@item.Content</li>
+  }
   }
 </ul>

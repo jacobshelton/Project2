@@ -4,7 +4,16 @@
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-.trey{
+.hlink a{
+  color: crimson;
+}
+
+.hlink a:hover{
+  text-decoration: none;
+  font-style: italic;
+}
+
+.tform{
   border-radius: 20px;
   text-indent: 12px;
 }
