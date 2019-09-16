@@ -6,7 +6,6 @@ namespace GroupBox.Domain.Models
     {
         public int ID { get; set; }
         public string UserName { get; set; }
-        public Password Password { get; set; }
         public List<Group> Groups { get; set; }
         public List<Post> Posts { get; set; }
     }

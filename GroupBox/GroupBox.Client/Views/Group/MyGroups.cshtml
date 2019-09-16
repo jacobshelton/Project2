@@ -1,0 +1,10 @@
+@model List<GroupBox.Domain.Models.Group>
+
+<ul>
+  @foreach (var item in Model)
+  {
+    <!-- add an href to send the user to the group they selected -->
+    <!-- shows only the groups that the user is a member of -->
+    <li>@item.Name</li>
+  }
+</ul>
