@@ -67,7 +67,7 @@ stages:
             displayName: 'docker login'
           - script: |
               docker image build --file Dockerfile --tag groupbox .
-              docker image tag devopsdemo jacobshelton/groupbox
+              docker image tag groupbox jacobshelton/groupbox
               docker push jacobshelton/groupbox
           - task: Docker@2
             inputs:
@@ -90,8 +90,8 @@ stages:
         steps:
           - task: AzureWebAppContainer@1
             inputs:
-              azureSubscription: 'jacobshelton2'
-              appName: 'groupbox201909'
+              azureSubscription: 'Azure subscription 1(3e034620-bb06-453e-9770-27ab9ff265be)'
+              appName: 'GroupBox1'
               containers: 'jacobshelton/groupbox'
 
 trigger:
