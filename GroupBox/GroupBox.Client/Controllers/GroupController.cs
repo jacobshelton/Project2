@@ -32,7 +32,7 @@ namespace GroupBox.Client.Controllers
             db.Users.Update(user);
             db.SaveChanges();
 
-            return View();
+            return RedirectToAction("Group",group);
         }
 
 
