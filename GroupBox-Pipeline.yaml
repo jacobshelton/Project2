@@ -1,0 +1,103 @@
+name: $(date:yyyyMMdd)$(rev:.rr)
+
+stages:
+  - stage: 'build'
+    condition: succeeded()
+    displayName: 'build-mvc'
+    jobs:
+      - job:
+        condition: succeeded()
+        displayName: 'build-process'
+        pool:
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - task: UseDotNet@2
+            displayName: 'dotnet installer'
+            inputs:
+              version: '2.2.401' 
+          - script: |
+              dotnet build 
+  - stage: 'test'
+    condition: succeeded()
+    displayName: 'test-mvc'
+    jobs:
+      - job:
+        condition: succeeded()
+        displayName: 'test-process'
+        pool:
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - task: UseDotNet@2
+            displayName: 'dotnet installer'
+            inputs:
+              version: '2.2.401'
+          - script: |
+              dotnet tool install --global dotnet-sonarscanner
+              dotnet sonarscanner begin /k:"Project2" /o:"jacobshelton-github" /d:sonar.login="7ddbaa273df5d8b499ca0fe1aaca7c7112ec63ab" /d:sonar.host.url="https://sonarcloud.io/"
+              dotnet build
+              dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=\"cobertura,opencover\" /p:Exclude=[xunit*]*
+              dotnet sonarscanner end /d:sonar.login="7ddbaa273df5d8b499ca0fe1aaca7c7112ec63ab"
+          - task: PublishTestResults@2
+            displayName: 'publish result::unit-test'
+            inputs:
+              testRunner: VSTest
+              testResultsFiles: '**/*.trx'
+          - task: PublishCodeCoverageResults@1
+            displayName: 'publish result::code-coverage'
+            inputs:
+              codeCoverageTool: cobertura
+              summaryFileLocation: '**/coverage.cobertura.xml'
+  
+  - stage: 'pack'
+    condition: succeeded()
+    dependsOn:
+      - test
+    displayName: 'pack-mvc'
+    jobs:
+      - job:
+        condition: succeeded()
+        displayName: 'pack-process'
+        pool:
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - task: Docker@2
+            inputs:
+              command: 'login'
+              containerRegistry: 'docker'
+            displayName: 'docker login'
+          - script: |
+              docker image build --file Dockerfile --tag groupbox .
+              docker image tag devopsdemo jacobshelton/groupbox
+              docker push jacobshelton/groupbox
+          - task: Docker@2
+            inputs:
+              command: 'logout'
+              containerRegistry: 'docker'
+            displayName: 'docker login'
+  
+  - stage: 'deploy'
+    condition: succeeded('pack')
+    dependsOn:
+      - test
+      - pack
+    displayName: 'deploy-mvc'
+    jobs:
+      - job:
+        condition: succeeded()
+        displayName: 'deploy-process'
+        pool:
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - task: AzureWebAppContainer@1
+            inputs:
+              azureSubscription: 'jacobshelton2'
+              appName: 'groupbox201909'
+              containers: 'jacobshelton/groupbox'
+
+trigger:
+  branches:
+    include:
+      - master
+
+variables:
+  sonar: '7ddbaa273df5d8b499ca0fe1aaca7c7112ec63ab'
