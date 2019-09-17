@@ -24,7 +24,8 @@ namespace GroupBox.Client.Controllers
                 db.Users.Add(newUser);
                 db.SaveChanges();
 
-                return RedirectToAction("Login");
+                HttpContext.Session.SetString("user", newUser.UserName);
+                return RedirectToAction("AllGroups","Group");
             }
             return View();
         }
@@ -37,15 +38,15 @@ namespace GroupBox.Client.Controllers
         [HttpPost]
         public IActionResult Login(User userLogin)
         {
-            User user = db.Users.Include("Posts").FirstOrDefault(u => u.UserName == userLogin.UserName);
-            HttpContext.Session.SetString("user", user.UserName);
-            return RedirectToAction("AllGroups","Group");
+            foreach (User u in db.Users)
+            {
+                if (userLogin.UserName==u.UserName)
+                {
+                  HttpContext.Session.SetString("user", u.UserName);
+                  return RedirectToAction("AllGroups","Group");
+                }
+            }
+           return RedirectToAction("Index", "Home");
         }
-
-        public IActionResult Info(User user)
-        {
-            return View(user);
-        }
-
     }
 }
