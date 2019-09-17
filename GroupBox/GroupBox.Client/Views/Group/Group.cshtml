@@ -14,9 +14,17 @@
     <form action="/Group/Group" method="post"><button type="submit">Join!</button></form>
 </h1>
 
+<div name="post-div">
+    <form action="/Group/Post" method="post">
+        <textarea name="content" rows="5" cols="50" style="resize:none" placeholder="Enter your post..."></textarea>
+        <button type="submit">Submit!</button>
+    </form>
+</div>
+
 <ul>
   @if (Model!=null)
   {
+      @Model.Posts.Count
   @foreach (var item in Model.Posts)
   {
     <li>@item.Content</li>

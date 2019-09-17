@@ -4,6 +4,7 @@ using GroupBox.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace GroupBox.Client.Controllers
 {
@@ -20,6 +21,7 @@ namespace GroupBox.Client.Controllers
         [HttpPost]
         public IActionResult Create(Group group)
         {
+            //Grab current user
             string uName = HttpContext.Session.GetString("user");
             User user = db.Users.FirstOrDefault(u => u.UserName == uName);
             
@@ -63,12 +65,18 @@ namespace GroupBox.Client.Controllers
         [HttpGet]
         public IActionResult MyGroups()
         {
+            //Grab current user
             string uName = HttpContext.Session.GetString("user");
-            User user = db.Users.Include("Groups").FirstOrDefault(u => u.UserName == uName);
+            User user = db.Users.FirstOrDefault(u => u.UserName == uName);
 
             if(user != null)
             {
-                return View();
+                List<Group> groupList = new List<Group>();
+                foreach(Group g in db.Groups.ToList())
+                {
+                    if(g.Users.Any(u => u.ID == user.ID)) groupList.Add(g);
+                }
+                return View(groupList);
             }
             else
             {
@@ -89,7 +97,9 @@ namespace GroupBox.Client.Controllers
           if(group.Name != null)
           {
               HttpContext.Session.SetString("group", group.Name);
-              return View(group);
+              Group chosenGroup = db.Groups.Include("Users").Include("Posts").FirstOrDefault(g => g.Name == group.Name);
+
+              return View(chosenGroup);
           }
           else return Redirect("allgroups");
         }
@@ -97,20 +107,40 @@ namespace GroupBox.Client.Controllers
         [HttpPost]
         public IActionResult Group()
         {
+            //Grab current user and group
             string gName = HttpContext.Session.GetString("group");
             string uName = HttpContext.Session.GetString("user");
-            User user = db.Users.Include("Groups").FirstOrDefault(u => u.UserName == uName);
+            User user = db.Users.FirstOrDefault(u => u.UserName == uName);
             Group group = db.Groups.Include("Users").FirstOrDefault(g => g.Name == gName);
+
             if(user != null && group != null)
             {
-                
                 group.Users.Add(user);
-
-                db.Users.Update(user);
                 db.Groups.Update(group);
                 db.SaveChanges();
             }
+
             return View(group);
+        }
+
+        [HttpPost]
+        public IActionResult Post(Post post)
+        {
+            //Grab current user and group
+            string gName = HttpContext.Session.GetString("group");
+            string uName = HttpContext.Session.GetString("user");
+            User user = db.Users.FirstOrDefault(u => u.UserName == uName);
+            Group group = db.Groups.Include("Users").FirstOrDefault(g => g.Name == gName);
+            
+            group.Posts.Add(post);
+            user.Posts.Add(post);
+
+            db.Posts.Add(post);
+            db.Groups.Update(group);
+            db.Users.Update(user);
+            db.SaveChanges();
+
+            return RedirectToAction("group", group);
         }
     }
 }

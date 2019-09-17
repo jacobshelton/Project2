@@ -37,7 +37,7 @@ namespace GroupBox.Client.Controllers
         [HttpPost]
         public IActionResult Login(User userLogin)
         {
-            User user = db.Users.Include("Groups").Include("Posts").FirstOrDefault(u => u.UserName == userLogin.UserName);
+            User user = db.Users.Include("Posts").FirstOrDefault(u => u.UserName == userLogin.UserName);
             HttpContext.Session.SetString("user", user.UserName);
             return RedirectToAction("AllGroups","Group");
         }
