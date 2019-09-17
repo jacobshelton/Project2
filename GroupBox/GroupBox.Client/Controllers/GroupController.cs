@@ -98,10 +98,11 @@ namespace GroupBox.Client.Controllers
           {
               HttpContext.Session.SetString("group", group.Name);
               Group chosenGroup = db.Groups.Include("Users").Include("Posts").FirstOrDefault(g => g.Name == group.Name);
-
+              string user= HttpContext.Session.GetString("user");
+              ViewBag.u = db.Users.FirstOrDefault(u => u.UserName == user);
               return View(chosenGroup);
           }
-          else return Redirect("allgroups");
+          else return Redirect("Allgroups");
         }
 
         [HttpPost]
@@ -120,7 +121,7 @@ namespace GroupBox.Client.Controllers
                 db.SaveChanges();
             }
 
-            return View(group);
+            return RedirectToAction("Group",group);
         }
 
         [HttpPost]

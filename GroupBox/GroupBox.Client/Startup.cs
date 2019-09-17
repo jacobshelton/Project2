@@ -30,7 +30,6 @@ namespace GroupBox.Client
             {
             options.Cookie.IsEssential = true;
             });
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
